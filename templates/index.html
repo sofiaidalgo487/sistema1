@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventario · E.N.E.T. N°1 Palpalá</title>
+<link rel="icon" href="{{ url_for('static', filename='logo.png') }}">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="{{ 'is-login' if not usuario else 'is-app' }}">
+{% macro mensajes_flash() %}
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% for categoria, mensaje in mensajes %}
+      <div class="aviso {{ 'aviso-error' if categoria == 'error' else 'aviso-ok' }}" role="alert">{{ mensaje }}</div>
+    {% endfor %}
+  {% endwith %}
+{% endmacro %}
+
+{% if not usuario %}
+<main class="login">
+  <aside class="login-marca">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Escudo E.N.E.T. N°1" class="login-escudo">
+    <p class="login-escuela">E.N.E.T. N°1 “Gral. Savio”</p>
+    <h1>Inventario<br>de equipos</h1>
+    <p class="login-lema">Sección Técnica de Informática · Palpalá, Jujuy</p>
+  </aside>
+
+  <section class="login-panel">
+    <div class="login-caja">
+      <h2>Bienvenido</h2>
+      <p class="login-sub">Ingresá con tu cuenta institucional para consultar el estado de los equipos.</p>
+
+      {{ mensajes_flash() }}
+
+      <form method="post" action="{{ url_for('login') }}" class="login-form">
+        <input type="hidden" name="id" value="{{ busqueda }}">
+
+        <label class="campo">
+          <span>Correo</span>
+          <input type="email" name="correo" placeholder="nombre@eet1saviopalpala.edu.ar" autocomplete="email" required
+                 pattern="[A-Za-z0-9._%+\-]+@[Ee][Ee][Tt]1[Ss][Aa][Vv][Ii][Oo][Pp][Aa][Ll][Pp][Aa][Ll][Aa]\.[Ee][Dd][Uu]\.[Aa][Rr]"
+                 title="Usá tu correo institucional terminado en @eet1saviopalpala.edu.ar">
+          <small class="campo-ayuda">Solo correos <b>@eet1saviopalpala.edu.ar</b></small>
+        </label>
+
+        <label class="campo">
+          <span>Contraseña</span>
+          <div class="campo-clave">
+            <input type="password" name="contrasena" id="clave" placeholder="Tu contraseña" autocomplete="current-password" required>
+            <button type="button" class="ver-clave" id="verClave" aria-label="Mostrar contraseña">Ver</button>
+          </div>
+        </label>
+
+        <button type="submit" class="btn btn-rojo btn-ancho">Entrar</button>
+      </form>
+
+      <ul class="roles-info">
+        <li><b>Alumno</b> consulta equipos</li>
+        <li><b>Docente</b> consulta y actualiza</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<script>
+  document.getElementById('verClave').addEventListener('click', function () {
+    var i = document.getElementById('clave'), v = i.type === 'password';
+    i.type = v ? 'text' : 'password';
+    this.textContent = v ? 'Ocultar' : 'Ver';
+  });
+</script>
+
+{% else %}
+<div class="shell">
+  <aside class="lateral">
+    <div class="lateral-marca">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="" class="lateral-escudo">
+      <div>
+        <strong>E.N.E.T. N°1</strong>
+        <small>Inventario informático</small>
+      </div>
+    </div>
+
+    <form method="get" action="{{ url_for('inicio') }}" class="lateral-buscar">
+      <label for="buscar">Buscar por ID</label>
+      <input type="text" id="buscar" name="id" value="{{ busqueda }}" placeholder="Ej: 906784" autocomplete="off">
+      <button type="submit" class="btn btn-blanco btn-ancho">Buscar</button>
+    </form>
+
+    <nav class="lateral-nav">
+      <a href="{{ url_for('inicio') }}" class="activo">Todos los equipos</a>
+    </nav>
+
+    <div class="lateral-usuario">
+      <span class="etiqueta-rol rol-{{ rol }}">{{ rol }}</span>
+      <p title="{{ usuario }}">{{ usuario }}</p>
+      <form method="post" action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-borde btn-ancho">Cerrar sesión</button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <header class="contenido-cab">
+      <h1>Equipos del laboratorio</h1>
+      <p>{{ inventario|length }} equipos registrados</p>
+    </header>
+
+    {{ mensajes_flash() }}
+
+    {% if busqueda and not equipo %}
+      <div class="aviso aviso-error">No se encontró ningún equipo con ID “{{ busqueda }}”.</div>
+    {% endif %}
+
+    <section class="resumen">
+      <div class="dato"><span>{{ inventario|length }}</span>Total</div>
+      <div class="dato ok"><span>{{ inventario|selectattr('estado','equalto','operativo')|list|length }}</span>Operativos</div>
+      <div class="dato warn"><span>{{ inventario|selectattr('estado','equalto','revision')|list|length }}</span>En revisión</div>
+      <div class="dato off"><span>{{ inventario|selectattr('estado','equalto','fuera de servicio')|list|length }}</span>Fuera de servicio</div>
+    </section>
+
+    {% if equipo %}
+    <section class="ficha">
+      {% if editando %}<form method="post" action="{{ url_for('editar', equipo_id=equipo.id) }}">{% endif %}
+      <div class="ficha-cab">
+        <div>
+          <small>{{ equipo.aula }}</small>
+          <h2>Equipo {{ equipo.id }}</h2>
+        </div>
+        {% if editando %}
+          <select name="estado" class="entrada" aria-label="Estado del equipo">
+            {% for clave, nombre in estados.items() %}
+            <option value="{{ clave }}" {{ 'selected' if equipo.estado == clave else '' }}>{{ nombre }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <span class="pildora {{ clases[equipo.estado] }}">{{ estados[equipo.estado] }}</span>
+        {% endif %}
+      </div>
+
+      <dl class="ficha-datos">
+        <div><dt>Procesador</dt><dd>{{ equipo.cpu }}</dd></div>
+        <div><dt>Memoria RAM</dt><dd>{{ equipo.ram }}</dd></div>
+        <div><dt>Almacenamiento</dt><dd>{{ equipo.disco }}</dd></div>
+        <div><dt>Sistema operativo</dt><dd>{{ equipo.so }}</dd></div>
+        <div><dt>N° de inventario</dt><dd>{{ equipo.inventario }}</dd></div>
+        <div><dt>Última revisión</dt><dd>{{ equipo.fecha }}</dd></div>
+      </dl>
+
+      <div class="ficha-obs">
+        <h3>Observaciones</h3>
+        {% if editando %}
+          <textarea name="obs" class="entrada" maxlength="500" rows="3">{{ equipo.obs }}</textarea>
+        {% else %}
+          <p>{{ equipo.obs }}</p>
+        {% endif %}
+      </div>
+
+      <div class="ficha-pie">
+        {% if editando %}
+          <button type="submit" class="btn btn-rojo">Guardar cambios</button>
+          <a class="btn btn-borde-rojo" href="{{ url_for('inicio', id=equipo.id) }}">Cancelar</a>
+        {% elif rol == 'docente' %}
+          <a class="btn btn-rojo" href="{{ url_for('inicio', id=equipo.id, editar=1) }}">Editar ficha</a>
+          <a class="btn btn-borde-rojo" href="{{ url_for('inicio') }}">Cerrar</a>
+        {% else %}
+          <span class="nota">Solo lectura: únicamente los docentes pueden modificar la ficha.</span>
+          <a class="btn btn-borde-rojo" href="{{ url_for('inicio') }}">Cerrar</a>
+        {% endif %}
+      </div>
+      {% if editando %}</form>{% endif %}
+    </section>
+    {% endif %}
+
+    <div class="filtros" role="group" aria-label="Filtrar por estado">
+      <button type="button" class="filtro activo" data-f="todos">Todos</button>
+      {% for clave, nombre in estados.items() %}
+      <button type="button" class="filtro" data-f="{{ clave }}">{{ nombre }}</button>
+      {% endfor %}
+    </div>
+
+    <section class="tarjetas" id="tarjetas">
+      {% for e in inventario %}
+      <article class="tarjeta {{ clases[e.estado] }}" data-estado="{{ e.estado }}">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">{{ e.id }}</span>
+          <span class="pildora {{ clases[e.estado] }}">{{ estados[e.estado] }}</span>
+        </div>
+        <h3>{{ e.aula }}</h3>
+        <p class="tarjeta-esp">{{ e.cpu }} · {{ e.ram }} · {{ e.so }}</p>
+        <div class="tarjeta-pie">
+          <a href="{{ url_for('inicio', id=e.id) }}">Ver ficha</a>
+          {% if rol == 'docente' %}<a href="{{ url_for('inicio', id=e.id, editar=1) }}">Editar</a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </section>
+  </main>
+</div>
+<script>
+  document.querySelectorAll('.filtro').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.filtro').forEach(function (x) { x.classList.remove('activo'); });
+      b.classList.add('activo');
+      document.querySelectorAll('.tarjeta').forEach(function (t) {
+        t.hidden = b.dataset.f !== 'todos' && t.dataset.estado !== b.dataset.f;
+      });
+    });
+  });
+</script>
+{% endif %}
+</body>
+</html>

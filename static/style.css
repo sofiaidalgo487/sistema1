@@ -1,0 +1,612 @@
+/* ============================================================
+   SECCIÓN TÉCNICA DE INFORMÁTICA — ENET N°1 PALPALA
+   Identidad: placa de taller / chapa remachada.
+   Paleta: negro industrial, blanco, rojo institucional,
+   con acero (grises) como neutro estructural y una chispa
+   de naranja tomada del escudo como acento mínimo.
+   ============================================================ */
+
+:root{
+  --negro:        #121212;
+  --negro-2:      #1c1c1c;
+  --acero-900:    #2b2b2b;
+  --acero-700:    #4a4a4a;
+  --acero-400:    #8c8c8c;
+  --acero-200:    #d4d4d4;
+  --blanco:       #ffffff;
+  --rojo:         #cc1f1f;
+  --rojo-700:     #8f1414;
+  --rojo-900:     #4d0a0a;
+  --naranja:      #e08a1e;
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-mono:    "Roboto Mono", ui-monospace, monospace;
+  --font-body:    "Inter", system-ui, sans-serif;
+
+  --radius: 2px;
+  --shadow-plate: 0 18px 40px -18px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.03) inset;
+}
+
+*{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(204,31,31,.08), transparent 45%),
+    var(--negro);
+  color: var(--acero-200);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hidden{ display: none !important; }
+
+a{ color: var(--rojo); }
+
+code{
+  font-family: var(--font-mono);
+  background: rgba(255,255,255,.06);
+  padding: .12em .4em;
+  border-radius: var(--radius);
+  color: var(--acero-200);
+}
+.mono{ font-family: var(--font-mono); }
+
+/* ---------------- franja diagonal (chispa del escudo) ---------------- */
+.bolt-strip{
+  height: 6px;
+  width: 100%;
+  background:
+    repeating-linear-gradient(
+      100deg,
+      var(--rojo) 0 26px,
+      var(--negro) 26px 30px,
+      var(--rojo) 30px 56px,
+      var(--negro) 56px 60px
+    );
+  background-size: 240px 100%;
+}
+
+/* ---------------- header ---------------- */
+.site-header{
+  background: linear-gradient(180deg, var(--negro-2), var(--negro));
+  border-bottom: 3px solid var(--rojo);
+  position: relative;
+}
+.site-header::after{
+  /* borde tipo engranaje */
+  content: "";
+  display: block;
+  height: 8px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--acero-700) 0 10px,
+    transparent 10px 14px
+  );
+  opacity: .6;
+}
+.header-inner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.brand{ display: flex; align-items: center; gap: 18px; }
+.brand-logo{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.5));
+}
+.brand-text{ display: flex; flex-direction: column; gap: 4px; }
+.brand-eyebrow{
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  color: var(--rojo);
+  text-transform: uppercase;
+}
+.brand-title{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  letter-spacing: .02em;
+  color: var(--blanco);
+  margin: 0;
+  text-transform: uppercase;
+}
+.header-status{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .05em;
+  color: var(--acero-400);
+  border: 1px solid var(--acero-700);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.02);
+}
+.status-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(204,31,31,.18);
+}
+.header-status.online .status-dot{ background: #3fae5c; box-shadow: 0 0 0 3px rgba(63,174,92,.18); }
+
+/* ---------------- layout general ---------------- */
+main{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 28px 80px;
+}
+
+.eyebrow{
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  margin-bottom: 8px;
+}
+
+.section-title{
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--blanco);
+  font-size: 1.3rem;
+  margin: 0 0 6px;
+}
+.section-sub{
+  margin: 0 0 22px;
+  color: var(--acero-400);
+  font-size: .92rem;
+}
+
+/* ---------------- placa base (rivets) ---------------- */
+.plate{
+  position: relative;
+  background: linear-gradient(180deg, var(--negro-2), var(--negro));
+  border: 1px solid var(--acero-700);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-plate);
+  padding: 40px;
+}
+.rivet{
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--acero-200), var(--acero-700) 70%);
+  box-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+.rivet.tl{ top: 14px; left: 14px; }
+.rivet.tr{ top: 14px; right: 14px; }
+.rivet.bl{ bottom: 14px; left: 14px; }
+.rivet.br{ bottom: 14px; right: 14px; }
+
+/* ---------------- pantalla de acceso ---------------- */
+.gate{
+  display: flex;
+  justify-content: center;
+}
+.gate-plate{
+  max-width: 480px;
+  width: 100%;
+  text-align: left;
+  border-top: 3px solid var(--rojo);
+}
+.gate-plate h2{
+  font-family: var(--font-display);
+  color: var(--blanco);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin: 0 0 14px;
+  letter-spacing: .02em;
+}
+.gate-desc{
+  color: var(--acero-400);
+  font-size: .92rem;
+  margin: 0 0 28px;
+}
+
+/* selector de rol (alumno / docente) */
+.role-toggle{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--acero-700);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.role-toggle input{ position: absolute; opacity: 0; pointer-events: none; }
+.role-toggle label{
+  text-align: center;
+  padding: 11px 10px;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--acero-400);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+  border-right: 1px solid var(--acero-700);
+}
+.role-toggle label:last-of-type{ border-right: none; }
+.role-toggle input:checked + label{
+  background: linear-gradient(180deg, var(--rojo), var(--rojo-700));
+  color: var(--blanco);
+}
+.role-toggle input:focus-visible + label{ outline: 2px solid var(--rojo); outline-offset: -2px; }
+
+#gateForm{ display: flex; flex-direction: column; gap: 10px; }
+#gateForm label{
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--acero-400);
+}
+#gateForm input{
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--acero-700);
+  color: var(--blanco);
+  font-family: var(--font-mono);
+  font-size: .95rem;
+  padding: 13px 14px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+#gateForm input:focus-visible{
+  border-color: var(--rojo);
+  background: rgba(204,31,31,.06);
+}
+#gateForm input:invalid:not(:placeholder-shown){
+  border-color: var(--rojo-700);
+}
+
+.gate-message{
+  min-height: 1.2em;
+  margin: 4px 0 0;
+  font-size: .85rem;
+  font-family: var(--font-mono);
+}
+.gate-message.error{ color: #ff6b6b; }
+.gate-message.ok{ color: #6bce8a; }
+
+.gate-hint{
+  margin: 26px 0 0;
+  font-size: .8rem;
+  color: var(--acero-700);
+}
+
+/* ---------------- botones ---------------- */
+.btn{
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .88rem;
+  border: none;
+  border-radius: var(--radius);
+  padding: 13px 22px;
+  cursor: pointer;
+  transition: transform .12s ease, background .15s ease, box-shadow .15s ease;
+}
+.btn:active{ transform: translateY(1px); }
+
+.btn-primary{
+  background: linear-gradient(180deg, var(--rojo), var(--rojo-700));
+  color: var(--blanco);
+  box-shadow: 0 8px 20px -8px rgba(204,31,31,.6);
+}
+.btn-primary:hover{ background: linear-gradient(180deg, #e02525, var(--rojo)); }
+
+.btn-ghost{
+  background: transparent;
+  border: 1px solid var(--acero-700);
+  color: var(--acero-200);
+}
+.btn-ghost:hover{ border-color: var(--rojo); color: var(--blanco); }
+
+/* ---------------- panel principal ---------------- */
+.app-toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-bottom: 26px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--acero-900);
+}
+.session-info{ display: flex; flex-direction: column; }
+.session-email{
+  font-family: var(--font-mono);
+  color: var(--blanco);
+  font-size: .95rem;
+}
+.toolbar-right{ display: flex; align-items: center; gap: 14px; }
+
+.search-block{ margin-bottom: 40px; }
+.search-form{
+  display: flex;
+  gap: 10px;
+  max-width: 480px;
+  flex-wrap: wrap;
+}
+.search-form input{
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--acero-700);
+  color: var(--blanco);
+  font-family: var(--font-mono);
+  font-size: .95rem;
+  padding: 13px 14px;
+  border-radius: var(--radius);
+  outline: none;
+}
+.search-form input:focus-visible{ border-color: var(--rojo); }
+
+.search-feedback{
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  color: #ff8a8a;
+  min-height: 1.2em;
+}
+
+/* ---------------- ficha resultado (placa de equipo) ---------------- */
+.result-plate{
+  position: relative;
+  background: linear-gradient(180deg, var(--negro-2), var(--negro));
+  border: 1px solid var(--acero-700);
+  border-left: 4px solid var(--rojo);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-plate);
+  padding: 32px 36px;
+  margin-bottom: 44px;
+}
+.result-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-bottom: 1px solid var(--acero-900);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+.result-head h3{
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  letter-spacing: .04em;
+  color: var(--blanco);
+  margin: 0;
+}
+.badge{
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--acero-700);
+  color: var(--acero-200);
+  white-space: nowrap;
+  height: fit-content;
+}
+.badge.ok{ border-color: #3fae5c; color: #7fe19b; background: rgba(63,174,92,.08); }
+.badge.warn{ border-color: var(--naranja); color: #f2b968; background: rgba(224,138,30,.1); }
+.badge.off{ border-color: var(--rojo); color: #ff8a8a; background: rgba(204,31,31,.08); }
+
+.result-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px 26px;
+  margin: 0;
+}
+.result-grid dt{
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--acero-400);
+  margin-bottom: 4px;
+}
+.result-grid dd{
+  margin: 0;
+  color: var(--blanco);
+  font-size: .95rem;
+}
+.result-obs{
+  margin: 24px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--acero-900);
+  font-size: .88rem;
+  color: var(--acero-200);
+}
+.result-obs strong{ color: var(--acero-400); font-family: var(--font-mono); font-weight: 500; }
+
+.result-head-actions{ display: flex; align-items: center; gap: 10px; }
+
+/* enlace directo para grabar en tag NFC */
+.result-nfc{
+  margin: 0 0 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--acero-900);
+}
+.nfc-link-row{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nfc-link-input{
+  flex: 1;
+  min-width: 220px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--acero-700);
+  color: var(--acero-200);
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+}
+.nfc-link-input:focus-visible{ border-color: var(--rojo); }
+.btn-small{ padding: 9px 16px; font-size: .78rem; }
+.nfc-copy-feedback{
+  margin: 8px 0 0;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: #6bce8a;
+  min-height: 1.1em;
+}
+
+/* botón de copiar enlace en la tabla general */
+.table-link-btn{
+  background: transparent;
+  border: 1px solid var(--acero-700);
+  color: var(--acero-200);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.table-link-btn:hover{ border-color: var(--rojo); color: var(--blanco); }
+
+.edit-select,
+.edit-textarea{
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--rojo);
+  color: var(--blanco);
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  outline: none;
+}
+.edit-textarea{
+  display: block;
+  width: 100%;
+  min-height: 70px;
+  margin-top: 8px;
+  resize: vertical;
+  font-family: var(--font-body);
+  font-size: .88rem;
+}
+
+.result-footer{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--acero-900);
+  flex-wrap: wrap;
+}
+.edit-actions{ display: flex; gap: 10px; }
+.read-only-note{
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: var(--acero-700);
+  letter-spacing: .02em;
+}
+
+/* insignia de rol en la barra superior */
+.badge.role-docente{ border-color: var(--rojo); color: #ff8a8a; background: rgba(204,31,31,.08); }
+.badge.role-alumno{ border-color: var(--acero-400); color: var(--acero-200); background: rgba(255,255,255,.03); }
+
+/* acciones de tabla (solo docente) */
+.table-edit-btn{
+  background: transparent;
+  border: 1px solid var(--acero-700);
+  color: var(--acero-200);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.table-edit-btn:hover{ border-color: var(--rojo); color: var(--blanco); }
+
+/* ---------------- tabla de inventario ---------------- */
+.table-wrap{
+  border: 1px solid var(--acero-900);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  min-width: 640px;
+}
+thead th{
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--acero-400);
+  background: var(--negro-2);
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--rojo);
+}
+tbody td{
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--acero-900);
+  color: var(--acero-200);
+}
+tbody tr:hover{ background: rgba(204,31,31,.05); cursor: pointer; }
+tbody td:first-child{ font-family: var(--font-mono); color: var(--blanco); }
+
+td .badge{ padding: 4px 10px; font-size: .68rem; }
+
+/* ---------------- footer ---------------- */
+.site-footer{
+  border-top: 1px solid var(--acero-900);
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--acero-700);
+  font-size: .78rem;
+  text-align: center;
+}
+.footer-logo{ width: 22px; height: 22px; object-fit: contain; opacity: .7; }
+
+/* ---------------- responsive ---------------- */
+@media (max-width: 560px){
+  .header-inner{ padding: 18px; }
+  .brand-title{ font-size: 1.25rem; }
+  .plate{ padding: 26px; }
+  .result-plate{ padding: 24px 20px; }
+}
+
+/* accesibilidad: foco visible global */
+:focus-visible{
+  outline: 2px solid var(--rojo);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; scroll-behavior: auto !important; }
+}
