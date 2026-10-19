@@ -1,0 +1,75 @@
+<!-- VISTA PREVIA: abrila con doble clic. Los botones no funcionan acá; para eso corré app.py -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventario · E.N.E.T. N°1 Palpalá</title>
+<link rel="icon" href="static/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+
+</head>
+<body class="is-login">
+
+
+
+<main class="login">
+  <aside class="login-marca">
+    <img src="static/logo.png" alt="Escudo E.N.E.T. N°1" class="login-escudo">
+    <p class="login-escuela">E.N.E.T. N°1 “Gral. Savio”</p>
+    <h1>Inventario<br>de equipos</h1>
+    <p class="login-lema">Sección Técnica de Informática · Palpalá, Jujuy</p>
+  </aside>
+
+  <section class="login-panel">
+    <div class="login-caja">
+      <h2>Bienvenido</h2>
+      <p class="login-sub">Ingresá con tu cuenta institucional para consultar el estado de los equipos.</p>
+
+      
+  
+    
+  
+
+
+      <form method="post" action="/login" class="login-form" onsubmit="sessionStorage.setItem('sesionActiva','1')">
+        <input type="hidden" name="id" value="">
+
+        <label class="campo">
+          <span>Correo</span>
+          <input type="email" name="correo" placeholder="nombre@eet1saviopalpala.edu.ar" autocomplete="email" required
+                 pattern="[A-Za-z0-9._%+\-]+@[Ee][Ee][Tt]1[Ss][Aa][Vv][Ii][Oo][Pp][Aa][Ll][Pp][Aa][Ll][Aa]\.[Ee][Dd][Uu]\.[Aa][Rr]"
+                 title="Usá tu correo institucional terminado en @eet1saviopalpala.edu.ar">
+          <small class="campo-ayuda">Solo correos <b>@eet1saviopalpala.edu.ar</b></small>
+        </label>
+
+        <label class="campo">
+          <span>Contraseña</span>
+          <div class="campo-clave">
+            <input type="password" name="contrasena" id="clave" placeholder="Tu contraseña" autocomplete="current-password" required>
+            <button type="button" class="ver-clave" id="verClave" aria-label="Mostrar contraseña">Ver</button>
+          </div>
+        </label>
+
+        <button type="submit" class="btn btn-rojo btn-ancho">Entrar</button>
+      </form>
+
+      <ul class="roles-info">
+        <li><b>Alumno</b> consulta equipos</li>
+        <li><b>Docente</b> consulta y actualiza</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<script>
+  document.getElementById('verClave').addEventListener('click', function () {
+    var i = document.getElementById('clave'), v = i.type === 'password';
+    i.type = v ? 'text' : 'password';
+    this.textContent = v ? 'Ocultar' : 'Ver';
+  });
+</script>
+
+
+</body>
+</html>
