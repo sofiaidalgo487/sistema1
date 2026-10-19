@@ -59,12 +59,12 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 # Usuarios del volcado original (id, correo, hash bcrypt, rol)
 USUARIOS_INICIALES = [
-    (7, "chavez@eet1saviopalpala.edu.ar", "morder", "docente"),
-    (8, "gabriel@eet1saviopalpala.edu.ar", "venta_de_pene", "alumno"),
-    (9, "juan@eet1saviopalpala.edu.ar", "Elpepe", "alumno"),
-    (10, "sofia@eet1saviopalpala.edu.ar", "sofiaaaaaaa", "docente"),
-    (11, "kevin@eet1saviopalpala.edu.ar", "dalekevin", "alumno"),
-    (12, "fernando@eet1saviopalpala.edu.ar", "traemeunfernandito", "docente"),
+    (7, "chavez@eet1saviopalpala.edu.ar", "Chavez2738", "docente"),
+    (8, "gabriel@eet1saviopalpala.edu.ar", "Gabriel9034", "alumno"),
+    (9, "juan@eet1saviopalpala.edu.ar", "Juancitoelmascapito.8374", "alumno"),
+    (10, "sofia@eet1saviopalpala.edu.ar", "idalgo.16/06", "docente"),
+    (11, "kevin@eet1saviopalpala.edu.ar", "kevingomez0214", "alumno"),
+    (12, "fernando@eet1saviopalpala.edu.ar", "fer34.2435", "docente"),
 ]
 
 
