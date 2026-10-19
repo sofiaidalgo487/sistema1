@@ -1,0 +1,223 @@
+<!-- VISTA PREVIA: abrila con doble clic. Los botones no funcionan acá; para eso corré app.py -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventario · E.N.E.T. N°1 Palpalá</title>
+<link rel="icon" href="static/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+
+<script>
+  /* Si la pestaña es nueva (o se cerró y se volvió a abrir), no hay marca y se cierra la sesión guardada. */
+  if (!sessionStorage.getItem('sesionActiva')) {
+    document.documentElement.style.visibility = 'hidden';
+    fetch("/logout", {method: 'POST'}).finally(function () {
+      location.replace("/");
+    });
+  }
+</script>
+
+</head>
+<body class="is-app">
+
+
+
+<div class="shell">
+  <aside class="lateral">
+    <div class="lateral-marca">
+      <img src="static/logo.png" alt="" class="lateral-escudo">
+      <div>
+        <strong>E.N.E.T. N°1</strong>
+        <small>Inventario informático</small>
+      </div>
+    </div>
+
+    <form method="get" action="/" class="lateral-buscar">
+      <label for="buscar">Buscar por ID</label>
+      <input type="text" id="buscar" name="id" value="906785" placeholder="Ej: 906784" autocomplete="off">
+      <button type="submit" class="btn btn-blanco btn-ancho">Buscar</button>
+    </form>
+
+    <nav class="lateral-nav">
+      <a href="/" class="activo">Todos los equipos</a>
+    </nav>
+
+    <div class="lateral-usuario">
+      <span class="etiqueta-rol rol-docente">docente</span>
+      <p title="sofia@eet1saviopalpala.edu.ar">sofia@eet1saviopalpala.edu.ar</p>
+      <form method="post" action="/logout" onsubmit="sessionStorage.removeItem('sesionActiva')">
+        <button type="submit" class="btn btn-borde btn-ancho">Cerrar sesión</button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <header class="contenido-cab">
+      <h1>Equipos del laboratorio</h1>
+      <p>6 equipos registrados</p>
+    </header>
+
+    
+  
+    
+  
+
+
+    
+
+    <section class="resumen">
+      <div class="dato"><span>6</span>Total</div>
+      <div class="dato ok"><span>4</span>Operativos</div>
+      <div class="dato warn"><span>1</span>En revisión</div>
+      <div class="dato off"><span>1</span>Fuera de servicio</div>
+    </section>
+
+    
+    <section class="ficha">
+      
+      <div class="ficha-cab">
+        <div>
+          <small>Taller de Informática — Puesto 2</small>
+          <h2>Equipo 906785</h2>
+        </div>
+        
+          <span class="pildora warn">En revisión</span>
+        
+      </div>
+
+      <dl class="ficha-datos">
+        <div><dt>Procesador</dt><dd>Intel Core i3-10100</dd></div>
+        <div><dt>Memoria RAM</dt><dd>4 GB DDR4</dd></div>
+        <div><dt>Almacenamiento</dt><dd>HDD 500 GB</dd></div>
+        <div><dt>Sistema operativo</dt><dd>Windows 10 Pro</dd></div>
+        <div><dt>N° de inventario</dt><dd>INV-2021-115</dd></div>
+        <div><dt>Última revisión</dt><dd>05/08/2026</dd></div>
+      </dl>
+
+      <div class="ficha-obs">
+        <h3>Observaciones</h3>
+        
+          <p>Lentitud reportada por 5° año. Pendiente ampliar RAM.</p>
+        
+      </div>
+
+      <div class="ficha-pie">
+        
+          <a class="btn btn-rojo" href="/?id=906785&amp;editar=1">Editar ficha</a>
+          <a class="btn btn-borde-rojo" href="/">Cerrar</a>
+        
+      </div>
+      
+    </section>
+    
+
+    <div class="filtros" role="group" aria-label="Filtrar por estado">
+      <button type="button" class="filtro activo" data-f="todos">Todos</button>
+      
+      <button type="button" class="filtro" data-f="operativo">Operativo</button>
+      
+      <button type="button" class="filtro" data-f="revision">En revisión</button>
+      
+      <button type="button" class="filtro" data-f="fuera de servicio">Fuera de servicio</button>
+      
+    </div>
+
+    <section class="tarjetas" id="tarjetas">
+      
+      <article class="tarjeta ok" data-estado="operativo">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906784</span>
+          <span class="pildora ok">Operativo</span>
+        </div>
+        <h3>Taller de Informática — Puesto 1</h3>
+        <p class="tarjeta-esp">Intel Core i3-10100 · 8 GB DDR4 · Windows 10 Pro</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906784">Ver ficha</a>
+          <a href="/?id=906784&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+      <article class="tarjeta warn" data-estado="revision">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906785</span>
+          <span class="pildora warn">En revisión</span>
+        </div>
+        <h3>Taller de Informática — Puesto 2</h3>
+        <p class="tarjeta-esp">Intel Core i3-10100 · 4 GB DDR4 · Windows 10 Pro</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906785">Ver ficha</a>
+          <a href="/?id=906785&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+      <article class="tarjeta ok" data-estado="operativo">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906786</span>
+          <span class="pildora ok">Operativo</span>
+        </div>
+        <h3>Taller de Informática — Puesto 3</h3>
+        <p class="tarjeta-esp">AMD Ryzen 3 3200G · 8 GB DDR4 · Ubuntu 22.04 LTS</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906786">Ver ficha</a>
+          <a href="/?id=906786&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+      <article class="tarjeta off" data-estado="fuera de servicio">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906787</span>
+          <span class="pildora off">Fuera de servicio</span>
+        </div>
+        <h3>Sala de Proyectos</h3>
+        <p class="tarjeta-esp">Intel Core i3-4130 · 4 GB DDR3 · Windows 10 Pro</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906787">Ver ficha</a>
+          <a href="/?id=906787&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+      <article class="tarjeta ok" data-estado="operativo">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906788</span>
+          <span class="pildora ok">Operativo</span>
+        </div>
+        <h3>Taller de Informática — Puesto 5</h3>
+        <p class="tarjeta-esp">Intel Core i5-10400 · 16 GB DDR4 · Windows 11 Pro</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906788">Ver ficha</a>
+          <a href="/?id=906788&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+      <article class="tarjeta ok" data-estado="operativo">
+        <div class="tarjeta-cab">
+          <span class="tarjeta-id">906789</span>
+          <span class="pildora ok">Operativo</span>
+        </div>
+        <h3>Biblioteca</h3>
+        <p class="tarjeta-esp">Intel Celeron N4020 · 4 GB DDR4 · Windows 10 Pro</p>
+        <div class="tarjeta-pie">
+          <a href="/?id=906789">Ver ficha</a>
+          <a href="/?id=906789&amp;editar=1">Editar</a>
+        </div>
+      </article>
+      
+    </section>
+  </main>
+</div>
+<script>
+  document.querySelectorAll('.filtro').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.filtro').forEach(function (x) { x.classList.remove('activo'); });
+      b.classList.add('activo');
+      document.querySelectorAll('.tarjeta').forEach(function (t) {
+        t.hidden = b.dataset.f !== 'todos' && t.dataset.estado !== b.dataset.f;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
